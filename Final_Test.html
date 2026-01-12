@@ -4,6 +4,7 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Raw GenAI Dashboard (Fixed Global Scope)</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📊</text></svg>" />
 <!-- ApexCharts -->
 <link href="https://cdn.jsdelivr.net/npm/apexcharts/dist/apexcharts.css" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
@@ -700,8 +701,7 @@ function toggleChatBox() {
 
 // --- TIMESTAMP LOGGER (Kept for essential logging) ---
 function addLog(msg, type = "info") {
-  const lines = msg.split("
-");
+  const lines = msg.split("\n");
   const timestamp = new Date().toLocaleTimeString("en-US", {
     hour12: false,
     hour: "2-digit",
@@ -791,8 +791,7 @@ function parseCSV() {
   APP.description = desc;
   const reader = new FileReader();
   reader.onload = (e) => {
-    const lines = e.target.result.trim().split("
-");
+    const lines = e.target.result.trim().split("\n");
     APP.cols = lines[0].split(",").map((h) => h.trim());
     APP.data = lines.slice(1).map((l) => {
       const v = l.split(",");
@@ -925,9 +924,9 @@ async function testAI() {
     });
     const aiReply = response.choices[0].message.content;
     log("AI Reply: " + aiReply, "success");
-    alert("✓ Test Success!
+    alert(`✓ Test Success!
 You: hi
-AI: " + aiReply);
+AI: ${aiReply}`);
   } catch (e) {
     log("Test failed: " + e.message, "error");
     alert("Test failed: " + e.message);
@@ -946,8 +945,7 @@ async function checkCache() {
     if (!webllmDB) {
       output.innerHTML +=
         '<div style="color:orange;">No WebLLM cache found. No models downloaded yet.</div>';
-      alert('No cached models found.
-Models will be downloaded when you click "Connect".');
+      alert('No cached models found.\\nModels will be downloaded when you click "Connect".');
       return;
     }
     output.innerHTML += `<div style="color:green;">Found cache: ${webllmDB.name}</div>`;
